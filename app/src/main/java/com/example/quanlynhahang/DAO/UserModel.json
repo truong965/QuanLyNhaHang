@@ -1,0 +1,24 @@
+{
+  "results": [
+    {
+      "gender": "male",
+      "name": "truong",
+      "location": {
+        "street": {
+          "number": 1397,
+          "name": "22nd Ave"
+        },
+        "city": "Belmont",
+        "state": "Northwest Territories",
+        "country": "Canada",
+        "postcode": "R5T 1K2"
+      },
+      "email": "mason.martin@example.com",
+      "picture": {
+        "large": "https://randomuser.me/api/portraits/men/75.jpg",
+        "medium": "https://randomuser.me/api/portraits/med/men/75.jpg",
+        "thumbnail": "https://randomuser.me/api/portraits/thumb/men/75.jpg"
+      }
+    }
+  ]
+}

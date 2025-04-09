@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".page.DetailOrderFragment">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:fillViewport="true">
+            <LinearLayout
+                android:id="@+id/payment_container"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/back"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/arrow"
+                        android:layout_marginVertical="10dp"
+                        android:onClick="goBack"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Chi Tiết Đơn hàng"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        android:gravity="center"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginVertical="16dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Trạng thái"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:paddingBottom="4dp" />
+                    <TextView
+                        android:id="@+id/status_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:text="Cooking"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="end"
+                        />
+                    <ImageView
+                        android:id="@+id/status_icon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/intro_pic"/>
+                </LinearLayout>
+                            <!-- 🏠 Address Section -->
+                            <TextView
+                                android:id="@+id/title_address"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Địa chỉ giao hàng"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:paddingBottom="4dp"
+                                android:layout_marginTop="16dp"/>
+                                <TextView
+                                    android:id="@+id/text_address"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="123 Main Street, City, Country"
+                                    android:background="#EEEEEE"
+                                    android:padding="12dp" />
+                <TextView
+                    android:id="@+id/title_food"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Đơn hàng"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="4dp"
+                    android:layout_marginTop="16dp"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_food"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_marginBottom="16dp" />
+                            <!-- 💰 Total Price -->
+                            <LinearLayout
+                                android:id="@+id/total_price_layout"
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="end"
+                                android:layout_marginBottom="16dp">
+
+                                <TextView
+                                    android:id="@+id/text_total"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Tổng tiền:"
+                                    android:textSize="20sp"
+                                    android:textStyle="bold"
+                                    android:layout_marginEnd="8dp" />
+
+                                <TextView
+                                    android:id="@+id/text_total_price"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="$0.00"
+                                    android:textSize="20sp"
+                                    android:textColor="@android:color/holo_red_dark"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                            <!-- 💳 Payment Methods -->
+                            <TextView
+                                android:id="@+id/title_payment_method"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Phương thức thanh toán"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                android:paddingBottom="4dp" />
+                            <TextView
+                                android:id="@+id/payment_method"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="123 Main Street, City, Country"
+                                android:background="#EEEEEE"
+                                android:padding="12dp" />
+                <TextView
+                    android:id="@+id/title_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lý do hủy đơn hàng"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:paddingBottom="4dp"
+                    android:layout_marginTop="16dp"/>
+                <TextView
+                    android:id="@+id/editReason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="123 Main Street, City, Country"
+                    android:background="#EEEEEE"
+                    android:padding="12dp" />
+                            <!-- ✅ Place Order Button -->
+                            <Button
+                                android:id="@+id/cancel_order"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Hủy đơn hàng"
+                                android:textSize="18sp"
+                                android:layout_marginBottom="100dp"
+                                android:backgroundTint="@color/mainColor"
+                                android:textColor="@android:color/white"
+                                android:padding="12dp"
+                                android:layout_marginTop="16dp"/>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+</FrameLayout>

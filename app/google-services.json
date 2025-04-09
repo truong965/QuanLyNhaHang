@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "140130738867",
+    "project_id": "quanlynhahang-didong",
+    "storage_bucket": "quanlynhahang-didong.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:140130738867:android:25574e999bff996d4f86c6",
+        "android_client_info": {
+          "package_name": "com.example.quanlynhahang"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU5gyXSFs3tAW_wvInZYjJluCyeTSGowc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

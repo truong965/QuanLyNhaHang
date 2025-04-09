@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".page.SettingFragment">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/settingsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cài đặt"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:layout_marginBottom="24dp" />
+
+            <!-- Thông báo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="12dp"
+                android:background="@drawable/search_background">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Nhận thông báo"
+                    android:textSize="18sp"
+                    android:layout_marginStart="20sp"
+                    android:textColor="@color/black"/>
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchNotification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="1.5"
+                    android:scaleY="1.3"
+                    android:layout_marginEnd="20sp"/>
+            </LinearLayout>
+
+            <!-- Đổi mật khẩu -->
+            <LinearLayout
+                android:id="@+id/layoutChangePassword"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/search_background"
+                android:layout_marginVertical="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Đổi mật khẩu"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="20sp"/>
+
+                <ImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@android:drawable/ic_menu_edit"
+                    android:contentDescription="Edit Icon"
+                    android:layout_marginEnd="20sp"/>
+            </LinearLayout>
+
+            <!-- Ngôn ngữ -->
+            <LinearLayout
+                android:id="@+id/layoutLanguage"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/search_background">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Ngôn ngữ"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="20sp"/>
+
+                <TextView
+                    android:id="@+id/currentLanguage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tiếng Việt"
+                    android:textSize="18sp"
+                    android:layout_marginEnd="20sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

@@ -1,0 +1,13 @@
+{
+  "rules": {
+    "Orders": {
+      "$userID": {
+        ".read": "$userID === auth.uid",
+        ".write": "$userID === auth.uid"
+      }
+    }
+  }
+}
+
+
+
