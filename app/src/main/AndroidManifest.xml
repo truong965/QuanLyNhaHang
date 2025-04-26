@@ -16,20 +16,14 @@
         android:theme="@style/Theme.QuanLyNhaHang"
         tools:targetApi="31">
         <activity
-            android:name=".page.simple_vnpay"
+            android:name=".view.activities.simple_vnpay"
             android:exported="true" >
         </activity>
         <activity
             android:name=".nhap.testVNPay"
             android:exported="true"></activity>
         <activity
-            android:name=".nhap.testApi"
-            android:exported="true" />
-        <activity
-            android:name=".nhap.exScroll"
-            android:exported="true" />
-        <activity
-            android:name=".page.Home"
+            android:name=".view.activities.Home"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,16 +32,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".page.BaseActivity"
+            android:name=".view.base.BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".page.SignUp"
+            android:name=".view.activities.SignUpActivity"
             android:exported="true" />
         <activity
-            android:name=".page.Login"
+            android:name=".view.activities.LoginActivity"
             android:exported="true" />
         <activity
-            android:name=".page.Intro"
+            android:name=".view.activities.IntroActivity"
             android:exported="true" />
     </application>
 

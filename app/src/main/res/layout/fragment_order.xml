@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".page.OrderFragment">
+    tools:context=".view.fragments.OrderFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -91,7 +91,17 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 android:layout_marginBottom="16dp" />
-<!--            &lt;!&ndash; 💰 Total Price &ndash;&gt;-->
+
+            <TextView
+                android:id="@+id/khongTimThay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Không tìm thấy đơn hàng"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
+            <!--            &lt;!&ndash; 💰 Total Price &ndash;&gt;-->
 <!--            <LinearLayout-->
 <!--                android:id="@+id/total_price_layout"-->
 <!--                android:orientation="horizontal"-->
