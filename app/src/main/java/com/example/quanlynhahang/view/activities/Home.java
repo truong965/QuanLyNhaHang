@@ -1,16 +1,13 @@
 package com.example.quanlynhahang.view.activities;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -30,6 +27,8 @@ import com.example.quanlynhahang.view.fragments.OrderFragment;
 import com.example.quanlynhahang.view.fragments.ProfileFragment;
 import com.example.quanlynhahang.view.fragments.SettingFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 public class Home extends BaseActivity {
@@ -150,19 +149,41 @@ public class Home extends BaseActivity {
             Log.w("showBottomDialog", "Activity is finishing, skipping dialog.");
             return;
         }
+        // Use BottomSheetDialog instead of regular Dialog
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        View bottomSheetView = getLayoutInflater().inflate(R.layout.bottomsheetlayout, null);
+        bottomSheetDialog.setContentView(bottomSheetView);
+// Disable dismiss when clicking outside
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
 
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.bottomsheetlayout);
+        // Set up click listeners
+        ImageView cancelButton = bottomSheetView.findViewById(R.id.cancelButton);
+        LinearLayout layoutVideo = bottomSheetView.findViewById(R.id.layoutVideo);
+        LinearLayout layoutShorts = bottomSheetView.findViewById(R.id.layoutShorts);
+        LinearLayout layoutLive = bottomSheetView.findViewById(R.id.layoutLive);
 
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
-            dialog.getWindow().setGravity(Gravity.BOTTOM);
-        }
+        // Set up click listeners for your buttons
+        cancelButton.setOnClickListener(v -> bottomSheetDialog.dismiss());
 
-        dialog.show();
+        // Add other click listeners as needed
+        layoutVideo.setOnClickListener(v -> {
+            // Handle video click
+            bottomSheetDialog.dismiss();
+        });
+
+        layoutShorts.setOnClickListener(v -> {
+            // Handle shorts click
+            bottomSheetDialog.dismiss();
+        });
+
+        layoutLive.setOnClickListener(v -> {
+            // Handle live click
+            bottomSheetDialog.dismiss();
+        });
+        // Add after setContentView but before show()
+        BottomSheetBehavior<View> behavior = BottomSheetBehavior.from((View) bottomSheetView.getParent());
+        behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        bottomSheetDialog.show();
     }
     private void initCart(){
         binding.cart.setOnClickListener(v -> {

@@ -88,11 +88,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
             textNumItems.setText("Số lượng món ăn: " + order.getFoodList().size());
             textTotalPrice.setText("Tổng tiền: " + order.getFoodList().stream()
                     .mapToDouble(food -> food.getPrice() * food.getNumberInCart())
-                    .sum());
+                    .sum()+"k VND");
             textCreationDate.setText("Ngày đặt hàng: " + formatTimestamp(order.getCreateTime()));
             textCompletionDate.setText("Ngày hoàn thành: " + formatTimestamp(order.getDeliveryEndTime()));
         }
         private String formatTimestamp(long timestamp) {
+            if(timestamp == 0) {
+                return "Chưa xác định";
+            }
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH-mm-ss", Locale.getDefault());
             Date date = new Date(timestamp);
             return sdf.format(date);

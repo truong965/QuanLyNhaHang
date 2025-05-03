@@ -26,9 +26,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-
-
 public class LoginActivity extends BaseActivity {
     private ManageUser manageUser =new ManageUser();
     private FirebaseAuth mAuth;
@@ -87,7 +84,7 @@ public class LoginActivity extends BaseActivity {
                             }
                             resetLoginState();
                         });
-            }, 2000);
+            }, 1000);
         });
         binding.dangKy.setOnClickListener(v -> {
             startActivity(new Intent(this, SignUpActivity.class));
@@ -132,6 +129,7 @@ public class LoginActivity extends BaseActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                      UserResponse.User user = snapshot.getValue(UserResponse.User.class);
+                     user.setEmail(mAuth.getCurrentUser().getEmail());
                      manageUser.setUser(user);
                     // Do whatever you want with the data
                     Toast.makeText(LoginActivity.this, "Welcome " + user.getName().getFirst(), Toast.LENGTH_LONG).show();

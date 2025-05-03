@@ -61,8 +61,8 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull FoodAdapter.ViewHolder holder, int position) {
         holder.title.setText(foodList.get(position).getTitle());
-        holder.price.setText(foodList.get(position).getPrice()+"$");
-        holder.time.setText(foodList.get(position).getTimeValue()+" min");
+        holder.price.setText(foodList.get(position).getPrice()+"k VND");
+        holder.time.setText(foodList.get(position).getTimeValue()+" phút");
         holder.star.setText(String.valueOf(foodList.get(position).getStar()));
         String imagePath = "file:///android_asset/food/" + foodList.get(position).getTitle() + ".jpg";
         Glide.with(context)

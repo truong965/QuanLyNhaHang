@@ -1,18 +1,10 @@
 package com.example.quanlynhahang.view.fragments;
 
 
-
 import android.app.AlertDialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,22 +12,31 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.bumptech.glide.Glide;
-//import com.example.quanlynhahang.DAO.RandomUserAPi;
-import com.example.quanlynhahang.network.VietNamApiService;
+import com.example.quanlynhahang.R;
+import com.example.quanlynhahang.data.firebase.FirebaseDatabaseManager;
+import com.example.quanlynhahang.data.local.ManageUser;
+import com.example.quanlynhahang.databinding.FragmentProfileBinding;
 import com.example.quanlynhahang.model.DistrictResponse;
 import com.example.quanlynhahang.model.Province;
 import com.example.quanlynhahang.model.ProvinceResponse;
 import com.example.quanlynhahang.model.UserResponse;
 import com.example.quanlynhahang.model.WardReponse;
-import com.example.quanlynhahang.data.local.ManageUser;
-import com.example.quanlynhahang.R;
-//import com.example.quanlynhahang.Ultil.CallUserAPI;
+import com.example.quanlynhahang.network.VietNamApiService;
 import com.example.quanlynhahang.utils.ProvinceDistrictWard;
-import com.example.quanlynhahang.databinding.FragmentProfileBinding;
 import com.example.quanlynhahang.view.base.BaseActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -401,10 +402,27 @@ public class ProfileFragment extends Fragment {
                 binding.chinhSua.setText("Chỉnh sửa");
                 isUpdate=false;
                 setUpdating();
+                getLatestInfo(id);
             }else{
                 Log.i("TAG","Thêm người dùng thất bại");
             }
         });
 
+    }
+    private void getLatestInfo(String uid){
+        DatabaseReference userRef = FirebaseDatabaseManager.getDatabase().getReference("User").child(uid);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    UserResponse.User user = snapshot.getValue(UserResponse.User.class);
+                    user.setEmail(mAuth.getCurrentUser().getEmail());
+                    manageUser.setUser(user);
+               }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 }

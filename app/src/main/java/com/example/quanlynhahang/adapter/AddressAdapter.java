@@ -21,6 +21,15 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
     private Context context;
     private ArrayList<UserResponse.LocationUser> location;
     private int selectedPosition = 0;
+    private OnAddressLongClickListener longClickListener;
+    // Interface for long-click events
+    public interface OnAddressLongClickListener {
+        void onAddressLongClick(int position, UserResponse.LocationUser location);
+    }
+
+    public void setOnAddressLongClickListener(OnAddressLongClickListener listener) {
+        this.longClickListener = listener;
+    }
     public String getSelectedAddress() {
         UserResponse.LocationUser selectedLocation = location.get(selectedPosition);
         return selectedLocation.getStreet().getName() + ", " +
@@ -79,6 +88,27 @@ public class AddressAdapter extends RecyclerView.Adapter<AddressAdapter.ViewHold
                 notifyItemChanged(selectedPosition);
             }
         });
+        // Add long click listener
+        holder.itemView.setOnLongClickListener(v -> {
+            int currentPos = holder.getAdapterPosition();
+            if (currentPos != RecyclerView.NO_POSITION && longClickListener != null) {
+                longClickListener.onAddressLongClick(currentPos, location.get(currentPos));
+                return true;
+            }
+            return false;
+        });
+    }
+
+    public void removeAddress(int position) {
+        if (position >= 0 && position < location.size()) {
+            location.remove(position);
+            notifyItemRemoved(position);
+
+            // Update selected position if needed
+            if (selectedPosition >= position && selectedPosition > 0) {
+                selectedPosition--;
+            }
+        }
     }
     @Override
     public int getItemCount() {

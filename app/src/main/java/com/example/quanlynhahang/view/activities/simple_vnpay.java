@@ -121,11 +121,11 @@ public class simple_vnpay extends AppCompatActivity {
             try {
                 double totalPrice = order.getFoodList().stream().mapToDouble(food -> food.getPrice() * food.getNumberInCart()).sum();
                 // Chuyển đổi double to long
-                Log.i("Truonggggg", "Total Price: " + (long) (totalPrice*10000));
-                Log.i("Truonggggg", "Total 222: " + order.getOrderId());
-                String paymentUrl = VnPayHelper.createVnpayUrl(order.getOrderId(),(long)(totalPrice*10000));
+//                Log.i("Truonggggg", "Total Price: " + (long) (totalPrice*10000));
+//                Log.i("Truonggggg", "Total 222: " + order.getOrderId());
+                String paymentUrl = VnPayHelper.createVnpayUrl(order.getOrderId(),(long)(totalPrice*1000));
 //                String paymentUrl = VnPayHelper.createVnpayUrl("lmsci", 10000);
-                Log.i("Truonggggg", "Payment URL: " + paymentUrl);
+//                Log.i("Truonggggg", "Payment URL: " + paymentUrl);
                 webView.loadUrl(paymentUrl);
             } catch (Exception e) {
                 e.printStackTrace();

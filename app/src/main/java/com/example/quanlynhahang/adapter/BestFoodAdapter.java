@@ -50,8 +50,8 @@ public class BestFoodAdapter extends RecyclerView.Adapter<BestFoodAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Bind data to the views here
         holder.title.setText(foodList.get(position).getTitle());
-        holder.price.setText(foodList.get(position).getPrice()+"$");
-        holder.time.setText(foodList.get(position).getTimeValue()+" min");
+        holder.price.setText(foodList.get(position).getPrice()+"k VND");
+        holder.time.setText(foodList.get(position).getTimeValue()+" phút");
         holder.star.setText(String.valueOf(foodList.get(position).getStar()));
         String imagePath = "file:///android_asset/food/" + foodList.get(position).getTitle() + ".jpg";
         Log.d("ImagePath", "Loading image from: " + imagePath);

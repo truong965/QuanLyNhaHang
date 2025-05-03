@@ -1,5 +1,7 @@
 package com.example.quanlynhahang.view.fragments;
 
+
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,6 +29,7 @@ import com.example.quanlynhahang.model.ProvinceResponse;
 import com.example.quanlynhahang.model.UserResponse;
 import com.example.quanlynhahang.model.WardReponse;
 import com.example.quanlynhahang.network.VietNamApiService;
+import com.example.quanlynhahang.utils.CustomToast;
 import com.example.quanlynhahang.utils.ProvinceDistrictWard;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -58,6 +61,7 @@ public class DeliveryAddressFragment extends Fragment {
     private ArrayAdapter<String> tinhAdapter,huyen_quanAdapter,xa_phuongAdapter;
     private Spinner tinhSpinner,huyenQuanSpinner,xaPhuongSpinner;
     private AddressSpinner addressSpinner = AddressSpinner.getInstance();
+    private CustomToast customToast;
     public DeliveryAddressFragment() {
         // Required empty public constructor
     }
@@ -71,6 +75,7 @@ public class DeliveryAddressFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        customToast = new CustomToast(requireContext());
         if (isAdded()) {
             mAuth = FirebaseAuth.getInstance();
             database = FirebaseDatabase.getInstance();
@@ -79,7 +84,7 @@ public class DeliveryAddressFragment extends Fragment {
         }
     }
     private void init(){
-        binding.back.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
+//        binding.back.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
 //        ArrayList<UserResponse.LocationUser> a = getLocation();
 //        for (   UserResponse.LocationUser locationUser : a) {
 //            Log.d("Firebase", "Address: " + locationUser.getStreet().getName() + ", " +
@@ -90,6 +95,10 @@ public class DeliveryAddressFragment extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
         loadAddresses(locations -> {
            addressAdapter = new AddressAdapter(getContext(), locations);
+            // Set up long-click listener for address removal
+            addressAdapter.setOnAddressLongClickListener((position, locationUser) -> {
+                showRemoveAddressDialog(position, locationUser);
+            });
             binding.recyclerView.setAdapter(addressAdapter);
         });
 //        binding.recyclerView.setAdapter(addressAdapter);
@@ -103,7 +112,7 @@ public class DeliveryAddressFragment extends Fragment {
             // 🔍 Check if the current fragment is the same as the new one
             Fragment currentFragment = fragmentManager.findFragmentById(R.id.frame_layout);
             if (currentFragment != null && currentFragment.getClass().equals(fragment.getClass())) {
-                Log.i("replaceFragment", "Fragment already displayed: " + fragment.getClass().getSimpleName());
+//                Log.i("replaceFragment", "Fragment already displayed: " + fragment.getClass().getSimpleName());
                 return; // 🚀 Skip replacement if it's the same fragment
             }
 
@@ -126,10 +135,10 @@ public class DeliveryAddressFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot itemSnapshot : snapshot.getChildren()) {
                     UserResponse.LocationUser address = itemSnapshot.getValue(UserResponse.LocationUser.class);
-                    Log.d("Firebase", "Address: " + address.getStreet().getName() + ", " +
-                            address.getWard() + ", " +
-                            address.getState() + ", " +
-                            address.getCity());
+//                    Log.d("Firebase", "Address: " + address.getStreet().getName() + ", " +
+//                            address.getWard() + ", " +
+//                            address.getState() + ", " +
+//                            address.getCity());
                     locationList.add(address);
                 }
                 listener.onAddressLoaded(locationList); // return data here
@@ -339,6 +348,62 @@ public class DeliveryAddressFragment extends Fragment {
             @Override
             public void onFailure(Call<WardReponse> call, Throwable t) {
                 Log.e("API ward Error", t.getMessage());
+            }
+        });
+    }
+    private void showRemoveAddressDialog(int position, UserResponse.LocationUser locationUser) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Xóa địa chỉ");
+        builder.setMessage("Bạn có chắc chắn muốn xóa địa chỉ này không?");
+
+        builder.setPositiveButton("Xóa", (dialog, which) -> {
+            removeAddress(position, locationUser);
+        });
+
+        builder.setNegativeButton("Hủy", (dialog, which) -> {
+            dialog.dismiss();
+        });
+
+        builder.create().show();
+    }
+    private void removeAddress(int position, UserResponse.LocationUser locationUser) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        String uid = user.getUid();
+        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("DeliverAddress")
+                .child(uid).child("addresses");
+
+        // Find address by matching all fields
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot addressSnapshot : snapshot.getChildren()) {
+                    UserResponse.LocationUser address = addressSnapshot.getValue(UserResponse.LocationUser.class);
+                    if (address != null &&
+                            address.getCity().equals(locationUser.getCity()) &&
+                            address.getState().equals(locationUser.getState()) &&
+                            address.getWard().equals(locationUser.getWard()) &&
+                            address.getStreet().getName().equals(locationUser.getStreet().getName())) {
+
+                        // Remove from Firebase
+                        addressSnapshot.getRef().removeValue()
+                                .addOnSuccessListener(aVoid -> {
+                                    // Remove from adapter
+                                    addressAdapter.removeAddress(position);
+                                    customToast.showToast("✅ Address removed successfully", true);
+                                })
+                                .addOnFailureListener(e -> {
+                                    customToast.showToast("❌ Failed to remove address", false);
+                                });
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                customToast.showToast("❌ Failed to remove address", false);
             }
         });
     }

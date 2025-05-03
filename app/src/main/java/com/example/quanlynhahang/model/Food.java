@@ -17,14 +17,18 @@ import lombok.ToString;
 
 public class Food implements Parcelable {
     private boolean BestFood;
+    private int CategoryId;
     private Category Category;
     private String Description;
     private int Id;
     private String ImagePath;
+    private int LocationId;
     private  Location Location;
     private double Price;
+    private int PriceId;
     private Price PriceObject;
     private  double Star;
+    private int TimeId;
     private  Time Time;
     private  int TimeValue;
     private String Title;

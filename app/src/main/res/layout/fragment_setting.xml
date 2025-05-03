@@ -78,6 +78,7 @@
                     android:layout_height="35dp"
                     android:src="@android:drawable/ic_menu_edit"
                     android:contentDescription="Edit Icon"
+                    android:scaleType="centerInside"
                     android:layout_marginEnd="20sp"/>
             </LinearLayout>
 

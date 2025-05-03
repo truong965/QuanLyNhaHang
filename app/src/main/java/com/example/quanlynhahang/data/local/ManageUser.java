@@ -27,6 +27,4 @@ public class ManageUser {
     private int positionProvince=-1;
     private int positionDistrict=-1;
     private int positionWard=-1;
-
-
 }

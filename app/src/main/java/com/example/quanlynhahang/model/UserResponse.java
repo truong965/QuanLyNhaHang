@@ -31,6 +31,8 @@ public class UserResponse {
         private LocationUser location;
         @SerializedName("email")
         private String email;
+        @SerializedName("role")
+        private String role;
     }
     @Getter
     @Setter

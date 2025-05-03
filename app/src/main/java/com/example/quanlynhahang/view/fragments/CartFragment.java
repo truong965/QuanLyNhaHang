@@ -1,6 +1,10 @@
 package com.example.quanlynhahang.view.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,18 +14,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.example.quanlynhahang.R;
 import com.example.quanlynhahang.adapter.CartAdapter;
-import com.example.quanlynhahang.model.Food;
 import com.example.quanlynhahang.data.local.ChangeNumberItemsListener;
 import com.example.quanlynhahang.data.local.ManagmentCart;
-import com.example.quanlynhahang.R;
-import com.example.quanlynhahang.utils.CustomToast;
 import com.example.quanlynhahang.databinding.FragmentCartBinding;
+import com.example.quanlynhahang.model.Food;
+import com.example.quanlynhahang.utils.CustomToast;
 
 public class CartFragment extends Fragment {
     private FragmentCartBinding binding;
@@ -82,7 +81,7 @@ public class CartFragment extends Fragment {
 
         binding.foodInCart.setAdapter(adapter);
         binding.loading.setVisibility(View.GONE);
-        binding.back.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
+//        binding.back.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
     };
     private void calculateTotal(){
         double total = Math.round(managmentCart.getTotalFee());
@@ -94,6 +93,10 @@ public class CartFragment extends Fragment {
     }
     private void init() {
         binding.thanhToan.setOnClickListener(v -> {
+            if(managmentCart.getListCart().isEmpty()){
+                customToast.showToast("❌ Vui lòng chọn món", false);
+                return;
+            }
             PaymentFragment paymentFragment = new PaymentFragment();
             Fragment currentFragment = getActivity().getSupportFragmentManager().findFragmentById(R.id.frame_layout);
             if (currentFragment != null && currentFragment.getClass().equals(paymentFragment.getClass())) {

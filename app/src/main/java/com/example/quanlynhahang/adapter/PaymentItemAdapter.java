@@ -60,7 +60,7 @@ public class PaymentItemAdapter  extends RecyclerView.Adapter<PaymentItemAdapter
         holder.title.setText(food.getTitle());
         holder.price.setText("Giá: " +food.getPrice() );
         holder.quantity.setText("Số lượng: "+ food.getNumberInCart() );
-        holder.totalPrice.setText("Tổng: "+ (food.getPrice() * food.getNumberInCart()) +"$");
+        holder.totalPrice.setText("Tổng: "+ (food.getPrice() * food.getNumberInCart()) +"k VND");
         String imagePath = "file:///android_asset/food/" + food.getTitle() + ".jpg";
         Glide.with(context)
                 .load(imagePath)

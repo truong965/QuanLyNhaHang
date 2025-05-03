@@ -16,12 +16,14 @@
         android:theme="@style/Theme.QuanLyNhaHang"
         tools:targetApi="31">
         <activity
+            android:name=".nhap.TestTokenActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.activities.simple_vnpay"
-            android:exported="true" >
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".nhap.testVNPay"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".view.activities.Home"
             android:exported="true">

@@ -61,9 +61,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         // Bind data to your views here
         Food food = foodList.get(position);
         holder.title.setText(food.getTitle());
-        holder.price.setText(food.getPrice() + "$");
+        holder.price.setText(food.getPrice() + "k VND");
         holder.quantity.setText(food.getNumberInCart() + "");
-        holder.totalPrice.setText((food.getPrice() * food.getNumberInCart()) +"$");
+        holder.totalPrice.setText((food.getPrice() * food.getNumberInCart()) +"k VND");
         String imagePath = "file:///android_asset/food/" + food.getTitle() + ".jpg";
         Glide.with(context)
                 .load(imagePath)

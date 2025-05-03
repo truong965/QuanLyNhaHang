@@ -3,18 +3,16 @@ package com.example.quanlynhahang.view.fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -77,9 +75,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (isAdded()) {
-            initSearch();
             setVariable();
-            initSpiner();
             initBestSeller();
             initCategory();
         } else {
@@ -87,164 +83,22 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void moveToSeach(String searchValue, boolean isSearch){
-        Bundle bundle = new Bundle();
-        bundle.putString("searchValue", searchValue);
-        bundle.putBoolean("isSearch", isSearch);
-       FoodListFragment searchFragment = new FoodListFragment();
-        searchFragment.setArguments(bundle);
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_layout, searchFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-    private void initSearch(){
-        binding.editTextText.setOnKeyListener((v, keyCode, event) -> {
-            if (event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_ENTER) {
-                // 🎯 Handle "Enter" key press here
-                String searchValue = binding.editTextText.getText().toString();
-                moveToSeach(searchValue,true);
-                return true; // Consume the event
-            }
-            return false;
-        });
-        binding.imageButton.setOnClickListener(v -> {
-            String searchValue = binding.editTextText.getText().toString();
-            moveToSeach(searchValue,true);
-        });
-    }
-    private void initLocation(){
-        DatabaseReference databaseReference= database.getReference("Location");
-        ArrayList<Location> locations = new ArrayList<>();
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot data: snapshot.getChildren()){
-                    Location location = data.getValue(Location.class);
-                    locations.add(location);
-                }
-                if (!isAdded() || getContext() == null) {
-                    Log.w("HomeFragment", "Fragment is detached, skipping UI update.");
-                    return;
-                }
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), R.layout.spinner_item, locations.stream().map(Location::getLoc).toArray(String[]::new));
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                binding.locationSp.setAdapter(adapter);
-                final boolean[] isFirstSelection = {true};
-                binding.locationSp.setSelection(locations.size()-1);
-
-                spinnerManager.setSelectedPosition("Location",locations.size()-1);
-                binding.locationSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                        if (isFirstSelection[0]) {
-                            isFirstSelection[0] = false;  // Ignore the first event
-                            return;
-                        }
-                        spinnerManager.setSelectedPosition("Location",position);
-                        moveToSeach("",false);
-                    }
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
-                spinnerManager.setSpinnerData("Location",locations);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
-    }
-    private void initTime(){
-        DatabaseReference databaseReference = database.getReference("Time");
-        ArrayList<Time> times = new ArrayList<>();
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data:snapshot.getChildren()){
-                    Time time = data.getValue(Time.class);
-                    times.add(time);
-                }
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item,times.stream().map(Time::getValue).toArray(String[]::new));
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                binding.timeSp.setAdapter(adapter);
-                final boolean[] isFirstSelection = {true};
-                binding.timeSp.setSelection(times.size()-1);
-                spinnerManager.setSelectedPosition("Time",times.size()-1);
-                binding.timeSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                        if (isFirstSelection[0]) {
-                            isFirstSelection[0] = false;  // Ignore the first event
-                            return;
-                        }
-                        spinnerManager.setSelectedPosition("Time",position);
-                        moveToSeach("",false);
-                    }
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
-                spinnerManager.setSpinnerData("Time",times);
-
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-    private void initPrice(){
-        DatabaseReference databaseReference = database.getReference("Price");
-        ArrayList<Price> prices = new ArrayList<>();
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot data:snapshot.getChildren()){
-                    Price price = data.getValue(Price.class);
-                    prices.add(price);
-                }
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),R.layout.spinner_item,prices.stream().map(Price::getValue).toArray(String[]::new));
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                binding.priceSp.setAdapter(adapter);
-                final boolean[] isFirstSelection = {true};
-                binding.priceSp.setSelection(prices.size()-1);
-                spinnerManager.setSelectedPosition("Price",prices.size()-1);
-                binding.priceSp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                        if (isFirstSelection[0]) {
-                            isFirstSelection[0] = false;  // Ignore the first event
-                            return;
-                        }
-                        spinnerManager.setSelectedPosition("Price",position);
-                        moveToSeach("",false);
-                    }
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
-                spinnerManager.setSpinnerData("Price",prices);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-    private void initSpiner(){
-        initLocation();
-        initPrice();
-        initTime();
-    }
     private void initBestSeller() {
+        binding.textView5.setOnClickListener(v -> {
+            // move to FoodListFragment
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            FoodListFragment foodListFragment = new FoodListFragment();
+            // 🔍 Check if the current fragment is the same as the new one
+            Fragment currentFragment = fragmentManager.findFragmentById(R.id.frame_layout);
+            if (currentFragment != null && currentFragment.getClass().equals(foodListFragment.getClass())) {
+                return; // 🚀 Skip replacement if it's the same fragment
+            }
 
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frame_layout, foodListFragment);
+            fragmentTransaction.commit();
+
+        });
         ArrayList<Food> foods = new ArrayList<>();
         binding.progressBarBanChay.setVisibility(View.VISIBLE);
         DatabaseReference databaseReference = database.getReference("Foods");

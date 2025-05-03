@@ -57,8 +57,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.itemView.setOnClickListener(v -> {
             spinnerManager.setSelectedPosition("Category",position);
             Bundle bundle = new Bundle();
-            bundle.putString("searchValue", "");
-            bundle.putBoolean("isSearch", false);
+            bundle.putInt("category", category.getId());
             FoodListFragment searchFragment = new FoodListFragment();
             searchFragment.setArguments(bundle);
             FragmentTransaction transaction = fragmentManager.beginTransaction();

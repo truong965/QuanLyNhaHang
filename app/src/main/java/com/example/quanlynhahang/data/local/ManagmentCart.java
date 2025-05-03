@@ -34,7 +34,7 @@ public class ManagmentCart {
         if(existAlready){
             listpop.get(n).setNumberInCart( listpop.get(n).getNumberInCart()+ item.getNumberInCart());
         }else{
-            item.setNumberInCart(1);
+            item.setNumberInCart(item.getNumberInCart()<1 ? 1: item.getNumberInCart());
             listpop.add(item);
         }
         tinyDB.putListObject("CartList",listpop);

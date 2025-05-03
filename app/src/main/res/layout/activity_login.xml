@@ -10,7 +10,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".view.activities.Login">
+        tools:context=".view.activities.LoginActivity">
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="180dp"
